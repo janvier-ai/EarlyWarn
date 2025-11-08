@@ -1,0 +1,17 @@
+[project]
+name = "earlywarn"
+version = "0.1.0"
+description = "Act before it's too late with these Early Event Prediction methods. Applicable to Predictive Maintenance, Medicine, Finance, and so on."
+authors = [
+    {name = "JoffreyMa",email = "joffrey.ma@janvier-ai.co"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pytest (>=9.0.0,<10.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
