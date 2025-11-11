@@ -1,0 +1,33 @@
+dataset: nasa_cmapss
+training_data_paths:
+  - data/nasa_cmapss/train_FD001.txt
+validation_data_paths:
+  - data/nasa_cmapss/val_FD001.txt
+test_data_paths:
+  - data/nasa_cmapss/test_FD001.txt
+anticipation:
+  mode: fixed_deadline
+  horizon: 1
+  steps: 10
+context:
+  length: 100
+  steps: 20
+results_save_path: results/
+models_save_path: models/
+cost:
+  misclassification: [[0,1],[1,0]]
+  delay: 
+    type: linear
+    slope: 0.1
+  combination: 
+    method: tradeoff
+    alphas: [0.1, 0.3, 0.5, 0.7, 0.9]
+triggers:
+  - path: aeon.classification.early_classification.ProbabilityThresholdEarlyClassifier
+  - path: aeon.classification.early_classification.TEASER
+  - path: earlywarn.triggers.calimera
+classifiers:
+  - path: aeon.classification.convolution_based.MiniRocketClassifier
+    params: 
+      - alphas: [1.0e-03, 4.6e-03, 2.1e-02, 1e-01, 4.6e-01, 2.1e+00, 1e+01, 4.6e+01, 2e+02, 1e+03]
+random_seed: 42
