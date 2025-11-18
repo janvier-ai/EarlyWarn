@@ -53,9 +53,9 @@ def main(dataset: str,
     for training_path, validation_path in zip(training_data_paths, validation_data_paths):
         logger.info(f"Loading training data from: {training_path}")
         logger.info(f"Loading validation data from: {validation_path}")
-        train_data = Dataset(training_path, type) # Dataloader yields X_..., y_...
+        train_data = Dataset(training_path, type) # Dataset yields X_..., y_...
         val_data = Dataset(validation_path)
-        # Generate datasets from Dataloader
+        # Generate datasets from Dataset
         X_train, y_train = [(X, y) for X, y in train_data] # TODO extract X_train, y_train properly into numpy arrays
         X_val, y_val = [(X, y) for X, y in val_data]     # TODO extract X_val, y_val properly
         # Optionally split training data into classifier training and trigger training sets
@@ -112,7 +112,7 @@ def main(dataset: str,
                             context_length=context_length,
                             prediction_horizon=prediction_horizon
                         )
-                        early_warner.fit_trigger(X_train_trig_feat, y_train_trig)
+                        early_warner.fit_trigger(X_train_trig, y_train_trig)
                         # Save trained model
                         model_save_path = f"{models_save_path}/early_warner_extr-{extr_cfg['path'].split('.')[-1]}_clsf-{clsf_cfg['path'].split('.')[-1]}_trig-{trig_cfg['path'].split('.')[-1]}_alpha-{alpha}.pkl"
                         early_warner.save(model_save_path)

@@ -10,7 +10,7 @@ dataset:
       - val_FD001.txt
     test:
       - test_FD001.txt
-    trigger_train_split: 0.2
+    early_train_split: 0.2
 anticipation:
   - mode: fixed_deadline
     lead: 1
@@ -19,7 +19,7 @@ anticipation:
 prefix:
   max_length: 100
   min_length: 10
-  steps: 20
+  stride: 20
 cost:
   misclassification: [[0,1],[1,0]]
   delay: 
@@ -28,10 +28,10 @@ cost:
   combination: 
     method: tradeoff
     alphas: [0.1, 0.3, 0.5, 0.7, 0.9]
-triggers:
+early_classifiers:
   - path: aeon.classification.early_classification.ProbabilityThresholdEarlyClassifier
   - path: aeon.classification.early_classification.TEASER
-  - path: earlywarn.triggers.calimera
+  - path: earlywarn.early_classification.calimera
 classifiers:
   - path: earlywarn.classification.prefix_ensemble.ProgressivePrefixEnsembleClassifier
     params:
