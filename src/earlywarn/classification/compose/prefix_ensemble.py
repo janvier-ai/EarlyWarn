@@ -87,6 +87,7 @@ class ProgressivePrefixEnsembleClassifier(BaseClassifier):
         "capability:multivariate": True,
         "capability:multithreading": True,
         "capability:missing_values": True,
+        "capability:unequal_length": True,
     }
 
     def __init__(
@@ -126,7 +127,7 @@ class ProgressivePrefixEnsembleClassifier(BaseClassifier):
         self._classification_points = (
             copy.deepcopy(self.classification_points)
             if self.classification_points is not None
-            else [round(self.n_timepoints_ / i) for i in range(1, 11)]
+            else np.arange(stop=self.n_timepoints_, step=10).tolist()
         )
         # remove duplicates
         self._classification_points = list(set(self._classification_points))
@@ -228,7 +229,7 @@ class ProgressivePrefixEnsembleClassifier(BaseClassifier):
                 for prob in o
             ]
         ) for o in out]
-        return preds, out[1]
+        return preds, out
     
     def _predict_proba_for_estimator(self, X, i, rng):
         probas = self._estimators[i].predict_proba(
